@@ -65,7 +65,7 @@ export default class ChooseImage extends React.Component {
           }
         <View>
             <TextInput
-              style={{width: 300, height: 20, borderColor: 'gray', borderWidth: 1, alignItems: "center"}}
+              style={{margin:5, width: 300, height: 20, borderColor: 'gray', borderWidth: 1, alignItems: "center"}}
               textAlign={'center'}
               onChangeText={(text) => this.setState({text})}
               value={this.state.text}
@@ -81,15 +81,13 @@ export default class ChooseImage extends React.Component {
                 <View style={{marginTop: 22, alignItems: 'center'}}>
                   <View>
                     <Text>Verification Code: {this.state.code}</Text>
-                    <Text>Total: {this.state.dataBody.total}</Text>
+                    <Text>Total: $ {this.state.dataBody.total}</Text>
                     <Text>Participant: {this.state.text}</Text>
           
                     <Button
-                      title="Hide Modal"
+                      title="Hide Status"
                       onPress={() => {
                         this.setModalVisible(false);
-                        this.state.code = null;
-                        this.setModalVisible(true);
                       }}
                     /> 
                   </View>
@@ -115,9 +113,17 @@ export default class ChooseImage extends React.Component {
           /> */}
           {image &&
             <Button
+              color="purple"
               title="Upload Image"
               onPress={() => {
                 this.uploadImageAndNavigate();
+              }}/>
+          }
+          {this.state.code &&
+            <Button
+              title="Show Status"
+              onPress={() => {
+                this.setModalVisible(true);
               }}/>
           }
         </View>
