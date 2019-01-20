@@ -42,6 +42,8 @@ export default class ChooseImage extends React.Component {
   state = {
     image: null,
     text: "Enter Email",
+    filepath: null,
+    data: null
   };
 
   render() {
@@ -87,6 +89,7 @@ export default class ChooseImage extends React.Component {
     console.log("start");
     this.uploadImage();
     this.props.navigation.dispatch(navigateAction);
+    // this.getVerification(this.state.filepath);
     console.log("end");
   }
 
@@ -94,7 +97,18 @@ export default class ChooseImage extends React.Component {
     navigate('ParsedView');
   }
 
-  uploadImage() {
+  async getVerification(apiUrl) {
+    fetch(apiUrl)
+    .then(response => {
+      console.log(response);
+      return response.json();
+    })
+    .then(responseJson => {
+      this.setState({ data: responseJson });
+    })
+  }
+
+  async uploadImage() {
     const apiUrl = 'https://facturefracture.azurewebsites.net/create_bill';
     const uri = this.state.image;
     const uriParts = uri.split('.');
@@ -116,10 +130,17 @@ export default class ChooseImage extends React.Component {
         };
     return fetch(apiUrl, options)
     .then(res => res.json())
-    .then(response => console.log('Success:', JSON.stringify(response)))
+    .then(response => 
+      {console.log('Success:');
+      this.state.filepath = response.json_filepath;
+      console.log(this.state.filepath);
+      this.getVerification(this.state.filepath);
+      // {console.log('Success:', response);
+      })
     .catch(error => console.error('Error:', error));
   }
 
+  
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
