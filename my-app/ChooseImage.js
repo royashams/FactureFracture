@@ -75,9 +75,7 @@ export default class ChooseImage extends React.Component {
                 animationType="slide"
                 transparent={false}
                 visible={this.state.modalVisible}
-                onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
-                }}>
+                >
                 <View style={{marginTop: 22, alignItems: 'center'}}>
                   <View>
                     <Text>Verification Code: {this.state.code}</Text>
@@ -179,6 +177,7 @@ export default class ChooseImage extends React.Component {
             'Content-Type': 'multipart/form-data',
           },
         };
+    console.log(options);
     return fetch(apiUrl, options)
     .then(res => res.json())
     .then(response => 
