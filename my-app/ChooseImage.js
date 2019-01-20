@@ -48,7 +48,8 @@ export default class ChooseImage extends React.Component {
     text: "Enter Email",
     filepath: null,
     data: null,
-    dataBody: null
+    dataBody: null,
+    code: null
   };
 
   render() {
@@ -67,9 +68,9 @@ export default class ChooseImage extends React.Component {
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
           />
-            {this.state.dataBody && 
+            {this.state.dataBody && this.state.code &&
               <Text>
-                hIIIIII
+                {this.state.code}
               </Text>
             }
         </View>
@@ -87,7 +88,7 @@ export default class ChooseImage extends React.Component {
             // style={styles.button}
             color="green"
             title="Go"
-            onPress={() => this.props.navigation.navigate('ParsedView', { bodyData: this.state.dataBody})}
+            onPress={() => this.props.navigation.navigate('ParsedView', { bodyData: this.state.dataBody["dinnerdaddy"]})}
           />
           {image &&
             <Button
@@ -147,9 +148,9 @@ export default class ChooseImage extends React.Component {
     return fetch(apiUrl, options)
     .then(res => res.json())
     .then(response => 
-      {console.log('Success:');
+      {console.log(response);
+      this.state.code = response.code
       this.state.filepath = response.json_filepath;
-      console.log(this.state.filepath);
       this.getVerification(this.state.filepath);
       // {console.log('Success:', response);
       })

@@ -46,7 +46,7 @@ export default class ParsedView extends React.Component {
     const temp = navigation.getParam('bodyData', 'default');
     console.log("temp!!!!");
     this.state.bodyData = temp;
-    console.log(this.state.bodyData.dinnerdaddy);
+    console.log(this.state.bodyData);
     console.log("done");
     return (
       <View style={styles.viewStyle}>
@@ -62,7 +62,7 @@ export default class ParsedView extends React.Component {
                 onPress={this.tester}
             />}
             {this.state.bodyData && 
-            <Text>{this.state.bodyData.dinnerdaddy}</Text>
+            <Text>{this.state.bodyData}</Text>
             // PROBLEM: sometimes it assumes its a string sometimes its an object so maybe instead pass in the params as just dinnerdaddy
             }
         </View>
