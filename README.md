@@ -1,4 +1,5 @@
-# NeatReceipt
+# Facture Fracture
+![banner](facture-fracture-banner.png)
 
 ## Install Dependencies
 Make sure you upgrade node and npm to the latest version! i'm using node v10 and npm. With node I had more luck just downloading the installer instead of using package managers. This is super important for react native.
