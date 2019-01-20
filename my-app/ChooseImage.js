@@ -15,7 +15,7 @@ const navigateAction = NavigationActions.navigate({
 const styles = StyleSheet.create({
   container: {
     borderRadius: 4,
-    borderWidth: 10,
+    borderWidth: 5,
     borderColor: '#d6d7da',
     // width:200,
     // height:200
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding:25
+    padding:30
   }
 });
 
