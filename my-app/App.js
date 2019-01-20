@@ -6,7 +6,7 @@ import ChooseImage from './ChooseImage';
 import ParsedView from './ParsedView';
 
 const RootStack = createStackNavigator({
-  home: {
+  Home: {
     screen: ChooseImage,
     routeName: 'ChooseImage',
     navigationOptions: ({ navigation }) => ({
@@ -23,11 +23,11 @@ const RootStack = createStackNavigator({
       },
     }),
   },
-  parsedView: {
+  ParsedView: {
     screen: ParsedView,
     routeName: 'ParsedView',
     navigationOptions: ({ navigation }) => ({
-      title: "MOOSE Image",
+      title: "Parsed Results",
       headerStyle: {
         backgroundColor: '#f4511e',
         height: 30
@@ -40,7 +40,11 @@ const RootStack = createStackNavigator({
       },
     }),
   },
-});
+},
+{
+  initialRouteName: 'Home',
+}
+);
 
 const App = createAppContainer(RootStack);
 

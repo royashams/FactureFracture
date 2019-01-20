@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, View, StyleSheet, Dimensions, TextInput } from 'react-native';
+import { Button, Image, View, StyleSheet, Dimensions, TextInput, Text } from 'react-native';
 import { ImagePicker } from 'expo';
 import {navigation, NavigationActions} from 'react-navigation';
 import ImgToBase64 from 'react-native-image-base64';
@@ -39,6 +39,10 @@ const styles = StyleSheet.create({
 });
 
 export default class ChooseImage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     image: null,
     text: "Enter Email",
@@ -59,10 +63,15 @@ export default class ChooseImage extends React.Component {
           }
         <View>
             <TextInput
-            style={{width: 300, height: 40, borderColor: 'gray', borderWidth: 1, alignItems: "center"}}
+            style={{width: 300, height: 20, borderColor: 'gray', borderWidth: 1, alignItems: "center"}}
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
           />
+            {this.state.dataBody && 
+              <Text>
+                hIIIIII
+              </Text>
+            }
         </View>
         <View
           style={{
@@ -73,6 +82,12 @@ export default class ChooseImage extends React.Component {
             color="red"
             title="Choose Image"
             onPress={this.pickImage}
+          />
+          <Button 
+            // style={styles.button}
+            color="green"
+            title="Go"
+            onPress={() => this.props.navigation.navigate('ParsedView', { bodyData: this.state.dataBody})}
           />
           {image &&
             <Button
@@ -89,13 +104,13 @@ export default class ChooseImage extends React.Component {
   uploadImageAndNavigate() {
     console.log("start");
     this.uploadImage();
-    this.props.navigation.dispatch(navigateAction);
+    // this.props.navigation.dispatch(navigateAction);
     // this.getVerification(this.state.filepath);
     console.log("end");
   }
 
-  goTo(){
-    navigate('ParsedView');
+  goTo(screen){
+    this.props.navigation.navigate('screen');
   }
 
   async getVerification(apiUrl) {
