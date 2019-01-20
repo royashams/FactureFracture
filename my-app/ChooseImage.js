@@ -43,7 +43,8 @@ export default class ChooseImage extends React.Component {
     image: null,
     text: "Enter Email",
     filepath: null,
-    data: null
+    data: null,
+    dataBody: null
   };
 
   render() {
@@ -101,10 +102,10 @@ export default class ChooseImage extends React.Component {
     fetch(apiUrl)
     .then(response => {
       console.log(response);
+      console.log("Attached Data to Frontend");
+      this.setState({ dataBody: response["_bodyInit"]});
+      console.log(this.state.dataBody);
       return response.json();
-    })
-    .then(responseJson => {
-      this.setState({ data: responseJson });
     })
   }
 
