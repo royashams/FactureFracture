@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, View, StyleSheet, Dimensions, TextInput, Text } from 'react-native';
+import { Modal, Button, Image, View, StyleSheet, Dimensions, TextInput, Text, TouchableHighlight } from 'react-native';
 import { ImagePicker } from 'expo';
 import {navigation, NavigationActions} from 'react-navigation';
 import ImgToBase64 from 'react-native-image-base64';
@@ -49,7 +49,8 @@ export default class ChooseImage extends React.Component {
     filepath: null,
     data: null,
     dataBody: null,
-    code: null
+    code: null,
+    modalVisible: true,
   };
 
   render() {
@@ -64,14 +65,36 @@ export default class ChooseImage extends React.Component {
           }
         <View>
             <TextInput
-            style={{width: 300, height: 20, borderColor: 'gray', borderWidth: 1, alignItems: "center"}}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
-          />
+              style={{width: 300, height: 20, borderColor: 'gray', borderWidth: 1, alignItems: "center"}}
+              textAlign={'center'}
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}
+            />
             {this.state.dataBody && this.state.code &&
-              <Text>
-                {this.state.code}
-              </Text>
+              <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
+                }}>
+                <View style={{marginTop: 22, alignItems: 'center'}}>
+                  <View>
+                    <Text>Verification Code: {this.state.code}</Text>
+                    <Text>Total: {this.state.dataBody.total}</Text>
+                    <Text>Participant: {this.state.text}</Text>
+          
+                    <Button
+                      title="Hide Modal"
+                      onPress={() => {
+                        this.setModalVisible(false);
+                        this.state.code = null;
+                        this.setModalVisible(true);
+                      }}
+                    /> 
+                  </View>
+                </View>
+            </Modal>
             }
         </View>
         <View
@@ -84,12 +107,12 @@ export default class ChooseImage extends React.Component {
             title="Choose Image"
             onPress={this.pickImage}
           />
-          <Button 
+          {/* <Button 
             // style={styles.button}
             color="green"
             title="Go"
             onPress={() => this.props.navigation.navigate('ParsedView', { bodyData: this.state.dataBody["dinnerdaddy"]})}
-          />
+          /> */}
           {image &&
             <Button
               title="Upload Image"
@@ -100,6 +123,10 @@ export default class ChooseImage extends React.Component {
         </View>
       </View>
     );
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   uploadImageAndNavigate() {
@@ -119,7 +146,8 @@ export default class ChooseImage extends React.Component {
     .then(response => {
       console.log(response);
       console.log("Attached Data to Frontend");
-      this.setState({ dataBody: response["_bodyInit"]});
+      this.setState({ dataBody: JSON.parse(response._bodyText)});
+      console.log(typeof this.state.dataBody);
       console.log(this.state.dataBody);
       return response.json();
     })
