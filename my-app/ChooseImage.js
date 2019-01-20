@@ -1,10 +1,16 @@
 import React from 'react';
-import { Button, Image, View, StyleSheet, Dimensions, Text } from 'react-native';
+import { Button, Image, View, StyleSheet, Dimensions, TextInput } from 'react-native';
 import { ImagePicker } from 'expo';
-// import {NavigationActions} from 'react-navigation';
+import {navigation, NavigationActions} from 'react-navigation';
 import ImgToBase64 from 'react-native-image-base64';
 
 // var base64Img = require('base64-img');
+
+const navigateAction = NavigationActions.navigate({
+  routeName: 'ParsedView',
+  params: {},
+  action: NavigationActions.navigate({ routeName: 'ParsedView' }),
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -35,11 +41,11 @@ const styles = StyleSheet.create({
 export default class ChooseImage extends React.Component {
   state = {
     image: null,
+    text: "Enter Email",
   };
 
   render() {
     let { image } = this.state;
-
     return (
       <View style={styles.viewStyle}>
         {image &&
@@ -48,6 +54,13 @@ export default class ChooseImage extends React.Component {
           width={Dimensions.get('window').width}
           height={Dimensions.get('window').height-100} />
           }
+        <View>
+            <TextInput
+            style={{width: 300, height: 40, borderColor: 'gray', borderWidth: 1, alignItems: "center"}}
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
+          />
+        </View>
         <View
           style={{
           flexDirection: 'row',
@@ -61,11 +74,20 @@ export default class ChooseImage extends React.Component {
           {image &&
             <Button
               title="Upload Image"
-              onPress={() => this.uploadImage()}/>
+              onPress={() => {
+                this.uploadImageAndNavigate();
+              }}/>
           }
         </View>
       </View>
     );
+  }
+
+  uploadImageAndNavigate() {
+    console.log("start");
+    this.uploadImage();
+    this.props.navigation.dispatch(navigateAction);
+    console.log("end");
   }
 
   goTo(){
@@ -83,6 +105,7 @@ export default class ChooseImage extends React.Component {
           name: `photo.${fileType}`,
           type: `image/${fileType}`,
         });
+        formData.append('user', this.state.text);
     const options = {
           method: 'POST',
           body: formData,
@@ -91,8 +114,11 @@ export default class ChooseImage extends React.Component {
             'Content-Type': 'multipart/form-data',
           },
         };
-    return fetch(apiUrl, options);
-      }
+    return fetch(apiUrl, options)
+    .then(res => res.json())
+    .then(response => console.log('Success:', JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));
+  }
 
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

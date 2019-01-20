@@ -8,6 +8,7 @@ import ParsedView from './ParsedView';
 const RootStack = createStackNavigator({
   home: {
     screen: ChooseImage,
+    routeName: 'ChooseImage',
     navigationOptions: ({ navigation }) => ({
       title: "Choose Image",
       headerStyle: {
@@ -24,8 +25,9 @@ const RootStack = createStackNavigator({
   },
   parsedView: {
     screen: ParsedView,
+    routeName: 'ParsedView',
     navigationOptions: ({ navigation }) => ({
-      title: "Choose Image",
+      title: "MOOSE Image",
       headerStyle: {
         backgroundColor: '#f4511e',
         height: 30
